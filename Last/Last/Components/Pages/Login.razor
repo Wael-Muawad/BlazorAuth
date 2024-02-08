@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Antiforgery
+@attribute [RequireAntiforgeryToken]
+
+
+
+
+@page "/login"
+
+<PageTitle>Login</PageTitle>
+<h3>Login</h3>
+
+@if (ShowAuthError)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var errorKey in Errors)
+        {
+            <ul>
+                <li>
+                    @errorKey.Key
+                    @foreach (var errorValue in errorKey.Value)
+                    {
+                        <ul>
+                            <li>@errorValue</li>
+                        </ul>
+                    }
+                </li>
+            </ul>
+        }
+    </div>
+}
+
+<EditForm Model="_loginRequestDto"
+          OnSubmit="ExecuteLogin"
+          FormName="loginform"
+          Enhance>
+    <AntiforgeryToken />
+    <ValidationSummary />
+
+    <label>Email:</label>
+    <InputText @bind-Value="_loginRequestDto.Email"></InputText>
+
+    <label>Password:</label>
+    <InputText type="password" @bind-Value="_loginRequestDto.Password"></InputText>
+
+    <div class="mt-3">
+        <button type="submit">Login</button>
+    </div>
+</EditForm>
+
+
+@if (SuccessfulLogin)
+{
+    <span>Successful Login</span>
+}

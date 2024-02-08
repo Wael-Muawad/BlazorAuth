@@ -1,0 +1,99 @@
+﻿@page "/student"
+@page "/student{id}"
+
+
+
+
+
+@if (string.IsNullOrEmpty(id))
+{
+    <h3>Create Student</h3>
+    <PageTitle>Create Student</PageTitle>
+}
+else
+{
+    <h3>Update Student</h3>
+    <PageTitle>Update Student </PageTitle>
+}
+
+
+<EditForm 
+    Model="studentModel" 
+    FormName="studentForm" 
+    OnValidSubmit="@HandleValidSubmit"
+    OnInvalidSubmit="@HandleInValidSubmit">
+
+    <AntiforgeryToken />
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label class="col-md-3"></label>
+        <InputText 
+            class="col-md-8 form-control"
+            @bind-Value="studentModel.Name">
+        </InputText>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Save Student</button>
+
+    @if (!string.IsNullOrEmpty(id))
+    {
+        <button type="submit" class="btn btn-danger">Delete Student</button>
+    }
+
+    <div class="form-group">
+        <p>@Message</p>
+    </div>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    public NavigationManager NavigationManager { get; set; }
+    [SupplyParameterFromForm]
+    public GetStudentDto studentModel { get; set; }
+
+    public string Message { get; set; } = string.Empty;
+
+
+    protected override Task OnParametersSetAsync()
+    {
+        //set student info to get by id
+        return base.OnParametersSetAsync();
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        var _studentId = new Guid(id);
+        //var student = await //get by id
+
+        // if (Student != null)
+        // {
+        //     studentModel = Student;
+        // }
+
+        return base.OnInitializedAsync();
+    }
+    protected async Task HandleValidSubmit()
+    {
+        //Add
+        if (string.IsNullOrEmpty(id))
+        {
+            
+        }
+
+        //update
+        else
+        {
+            
+        }
+    }
+
+    protected async Task HandleInValidSubmit()
+    {
+        Message = "Something went wrong";
+    }
+}
